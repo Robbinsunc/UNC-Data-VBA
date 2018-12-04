@@ -1,0 +1,84 @@
+
+' Create a script that will loop through each year of stock data and
+' grab the total amount of volume each stock had over the year.
+
+' You will also need to display the ticker symbol to coincide with
+' the total volume.
+
+' Your result should look as follows
+' (note: all solution images are for 2015 data).
+
+Sub Stock_Volumes()
+
+'Loop through the sheets
+    Dim ws As Worksheet
+    Set starting_ws = ActiveSheet
+    
+    For Each ws In ThisWorkbook.Worksheets
+    ws.Activate
+    
+    'Hardcode column "I" as title Stock Ticker
+
+        Range("I1").Value = "Stock Ticker"
+
+    'Hardcode column "J" as Total Volume
+    
+        Range("J1").Value = "Total Volume"
+    
+    'Set variable for holding the stock tickers
+        Dim Stock_Ticker As String
+    
+    'Set variable for holding Total Volume per Stock Ticker
+        Dim Total_Volume As Double
+        Total_Volume = 0
+    
+    'Track the location of each Stock Ticker Summary under Stock Ticker Header (Column "I")
+        Dim Stock_Summ As Integer
+        Stock_Summ = 2
+    
+    'Have VBA locate the last row
+        Dim LastRow As Double
+        LastRow = Cells(Rows.Count, 1).End(xlUp).Row
+        ' MsgBox (LastRow)
+
+    'Loop through all <tickers>
+        Dim i As Double
+        For i = 2 To LastRow
+    
+    'Check to see if we are still in the same <ticker>
+        If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+    
+            'Set the Ticker Name
+            Stock_Ticker = Cells(i, 1).Value
+    
+            'Add to the Total Volume
+            Total_Value = Total_Volume + Cells(i, 7).Value
+
+            'Print the Stock Ticker Column ("I")
+            Range("I" & Stock_Summ).Value = Stock_Ticker
+    
+            'Print the Total Volume Column ("J")
+            Range("J" & Stock_Summ).Value = Total_Volume
+    
+            'Add one to the Stock Ticker Summary
+            Stock_Summ = Stock_Summ + 1
+    
+            'Reset the Total Volume
+            Total_Volume = 0
+    
+        'If following cell is the same Stock Ticker
+        Else
+            'Add to Total Volume of Stock Ticker
+            Total_Volume = Total_Volume + Cells(i, 7).Value
+        
+        End If
+    
+        Next i
+ 
+ Next
+ starting_ws.Activate
+ 
+End Sub
+
+
+
